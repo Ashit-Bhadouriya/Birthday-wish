@@ -1,0 +1,25 @@
+/* Gift arrival animation */
+.gift {
+  opacity: 0;
+  transform: scale(0.6) translateY(80px) rotate(-6deg);
+  animation: giftArrival 1.6s cubic-bezier(.16,.9,.3,1.2) forwards;
+}
+
+@keyframes giftArrival {
+  0% {
+    opacity: 0;
+    transform: scale(0.6) translateY(80px) rotate(-6deg);
+    filter: blur(6px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-8px) rotate(2deg);
+    filter: blur(0);
+  }
+  80% {
+    transform: scale(0.98) translateY(4px) rotate(-1deg);
+  }
+  100% {
+    transform: scale(1) translateY(0) rotate(0deg);
+  }
+}

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday Ankur</title>
+
+  <!-- Premium typography -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Luxe palette */
+      --bg-1: #0b0f18;
+      --bg-2: #121826;
+      --bg-3: #0f1320;
+      --accent: #d5b676;       /* champagne gold */
+      --accent-2: #e9d6a8;
+      --text: #f7f7f8;
+      --muted: #b8c1d9;
+      --glow: rgba(213,182,118,0.35);
+
+      /* Sizing */
+      --hero-font: clamp(2.2rem, 6vw, 6rem);
+      --sub-font: clamp(1rem, 2.4vw, 1.4rem);
+      --tap-size: clamp(0.9rem, 2.2vw, 1.1rem);
+    }
+
+    /* Reset & base */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+      background: radial-gradient(1200px 600px at 30% 30%, var(--bg-2), var(--bg-3) 40%, var(--bg-1) 100%);
+      overflow: hidden;
+    }
+
+    /* Ambient vignette + grain for premium depth */
+    .vignette {
+      position: fixed; inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(1200px 600px at 70% 65%, rgba(255,255,255,0.05), transparent 60%),
+        radial-gradient(1400px 700px at 20% 20%, rgba(213,182,118,0.08), transparent 60%),
+        radial-gradient(1400px 700px at 80% 15%, rgba(213,182,118,0.06), transparent 60%);
+      mix-blend-mode: screen;
+    }
+    .grain {
+      position: fixed; inset: 0;
+      pointer-events: none;
+      opacity: 0.08;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" /></svg>');
+      background-size: 200px 200px;
+      mix-blend-mode: soft-light;
+    }
+
+    /* Center stage */
+    .stage {
+      position: relative;
+      height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: 3.2vh 3.2vw;
+    }
+
+    /* Canvas fireworks layered behind content */
+    canvas#fireworks {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      display: block;
+      z-index: 1;
+    }
+
+    /* Gift box container */
+    .gift-wrap {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      gap: 1.2rem;
+      text-align: center;
+    }
+
+    /* Gift box with shimmering gradients */
+    .gift {
+      width: min(340px, 62vw);
+      height: min(280px, 50vw);
+      position: relative;
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg, rgba(16,22,35,0.8), rgba(22,28,45,0.9)),
+        radial-gradient(120% 120% at 30% 20%, rgba(213,182,118,0.18), transparent 60%);
+      box-shadow:
+        0 30px 80px rgba(0,0,0,0.55),
+        inset 0 1px 0 rgba(255,255,255,0.05),
+        0 0 0 1px rgba(233,214,168,0.06);
+      overflow: visible;
+      transform: translateY(10px);
+      animation: floatUp 1200ms cubic-bezier(.2,.9,.25,1) forwards 150ms;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(24px) scale(0.98); opacity: 0; }
+      to   { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    /* Ribbon vertical */
+    .ribbon {
+      position: absolute; left: 50%; top: 0;
+      width: 14px; height: 100%;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, var(--accent-2), var(--accent) 40%, #b69a60 100%);
+      box-shadow: 0 0 16px var(--glow);
+      filter: drop-shadow(0 6px 8px rgba(0,0,0,0.35));
+    }
+
+    /* Lid */
+    .lid {
+      position: absolute; bottom: 100%;
+      left: 0; right: 0;
+      height: 66px;
+      border-radius: 16px 16px 0 0;
+      background:
+        linear-gradient(135deg, rgba(25,32,50,0.95), rgba(22,28,45,0.95)),
+        radial-gradient(120% 120% at 30% 20%, rgba(233,214,168,0.16), transparent 60%);
+      box-shadow:
+        0 20px 40px rgba(0,0,0,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        0 0 0 1px rgba(233,214,168,0.06);
+      transform-origin: 50% 100%;
+      animation: lidPulse 1600ms ease-in-out infinite;
+    }
+
+    @keyframes lidPulse {
+      0%, 100% { transform: rotate(0deg) translateY(0); }
+      30%      { transform: rotate(-2.6deg) translateY(-2px); }
+      60%      { transform: rotate(2deg) translateY(0); }
+    }
+
+    /* Bow */
+    .bow {
+      position: absolute; left: 50%; bottom: calc(100% + 6px);
+      width: 96px; height: 48px;
+      transform: translateX(-50%);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      filter: drop-shadow(0 6px 8px rgba(0,0,0,0.35));
+    }
+    .loop {
+      height: 100%;
+      border-radius: 40px;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent));
+      box-shadow: inset 0 -2px 8px rgba(0,0,0,0.25);
+    }
+
+    /* Tap overlay */
+    .tap {
+      margin-top: 1.2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(233,214,168,0.25);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35), 0 0 24px var(--glow);
+      color: var(--text);
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      font-size: var(--tap-size);
+      user-select: none;
+      transition: transform 200ms ease, background 200ms ease, box-shadow 200ms ease;
+    }
+    .tap:hover { transform: translateY(-2px); background: rgba(255,255,255,0.09); }
+    .tap:active { transform: translateY(0); }
+
+    .tap .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 14px var(--glow);
+      animation: pulseDot 1000ms ease-in-out infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.6); opacity: 0.65; }
+    }
+
+    /* Hero message hidden initially */
+    .hero {
+      position: absolute; inset: 0;
+      display: grid; place-items: center;
+      z-index: 3;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(10px) scale(1.02);
+    }
+
+    .hero.show {
+      opacity: 1;
+      transform: none;
+      transition: opacity 600ms ease, transform 600ms ease;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-family: Cinzel, serif;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      font-size: var(--hero-font);
+      line-height: 1.05;
+      text-align: center;
+      color: var(--text);
+      text-shadow:
+        0 0 24px rgba(255,255,255,0.08),
+        0 0 42px rgba(213,182,118,0.25),
+        0 0 64px rgba(213,182,118,0.15);
+      background: linear-gradient(180deg, #fff, var(--accent-2) 65%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      padding: 0 2rem;
+    }
+
+    .hero p {
+      margin-top: 14px;
+      font-size: var(--sub-font);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* After open: hide gift; fireworks + hero continue */
+    .opened .gift-wrap { opacity: 0; transform: translateY(10px); pointer-events: none; transition: all 500ms ease; }
+    .opened .hero { opacity: 1; }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .lid, .tap .dot { animation: none; }
+      .gift { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+    <!-- // music  -->
+
+    <audio id="bgMusic" loop>
+        <source src="birthday-music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+
+  <div class="vignette"></div>
+  <div class="grain"></div>
+  <canvas id="fireworks" aria-hidden="true"></canvas>
+
+  <main class="stage">
+    <!-- Gift scene -->
+    <section class="gift-wrap" aria-label="Birthday gift">
+      <div class="gift" role="img" aria-label="Stylish gift box">
+        <div class="ribbon" aria-hidden="true"></div>
+        <div class="lid" aria-hidden="true"></div>
+        <div class="bow" aria-hidden="true">
+          <div class="loop"></div>
+          <div class="loop"></div>
+        </div>
+      </div>
+      <button class="tap" id="tapOpen" aria-controls="fireworksMessage" aria-expanded="false">
+        <span class="dot" aria-hidden="true"></span>
+        Tap to open
+      </button>
+    </section>
+
+    <!-- Hero message -->
+    <section class="hero" id="fireworksMessage" aria-live="polite" aria-atomic="true">
+      <div>
+        <h1>Happy Birthday Ankur</h1>
+        <p>Wishing you a year of bold wins and golden moments.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Auto-play music on interaction (tap to open)
+    const audio = document.getElementById('bgMusic');
+        audio.volume = 0.6; // Set initial volume to 60%
+
+        // Try autoplay on page load
+        window.addEventListener('load', () => {
+            audio.play().catch(() => {
+                // If autoplay is blocked, play on first user interaction
+                document.body.addEventListener('click', () => {
+                    audio.play();
+                }, { once: true });
+            });
+        });
+
+    // Fireworks engine (infinite)
+    (() => {
+      const canvas = document.getElementById('fireworks');
+      const ctx = canvas.getContext('2d', { alpha: true });
+      let w, h, dpr, raf;
+      let particles = [];
+      let rockets = [];
+      let opened = false;
+
+      const rand = (min, max) => Math.random() * (max - min) + min;
+      const choice = (arr) => arr[(Math.random() * arr.length) | 0];
+
+      function resize() {
+        dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+        w = canvas.width = Math.floor(window.innerWidth * dpr);
+        h = canvas.height = Math.floor(window.innerHeight * dpr);
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        ctx.setTransform(1,0,0,1,0,0);
+        ctx.scale(dpr, dpr);
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      // Palette for premium fireworks
+      const hues = [42, 48, 50, 210, 216, 220]; // golds + cool blues
+      const glowColor = 'rgba(213,182,118,0.35)';
+
+      class Particle {
+        constructor(x, y, hue) {
+          this.x = x; this.y = y;
+          this.hue = hue;
+          this.alpha = 1;
+          this.radius = rand(1, 2.6);
+          const angle = rand(0, Math.PI * 2);
+          const speed = rand(1.6, 5.2);
+          this.vx = Math.cos(angle) * speed;
+          this.vy = Math.sin(angle) * speed;
+          this.drag = 0.98;
+          this.gravity = 0.06;
+          this.decay = rand(0.007, 0.02);
+        }
+        step() {
+          this.vx *= this.drag;
+          this.vy = this.vy * this.drag + this.gravity;
+          this.x += this.vx;
+          this.y += this.vy;
+          this.alpha -= this.decay;
+          return this.alpha > 0;
+        }
+        draw(ctx) {
+          ctx.save();
+          ctx.globalCompositeOperation = 'screen';
+          ctx.globalAlpha = Math.max(0, this.alpha);
+          const c = `hsl(${this.hue} 80% 60%)`;
+          ctx.fillStyle = c;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fill();
+          // glow
+          ctx.shadowColor = glowColor;
+          ctx.shadowBlur = 12;
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      class Rocket {
+        constructor() {
+          this.x = rand(w*0.15, w*0.85);
+          this.y = h + 20;
+          this.targetY = rand(h*0.25, h*0.55);
+          this.hue = choice(hues);
+          this.speed = rand(8, 12);
+          this.started = performance.now();
+        }
+        step() {
+          this.y -= this.speed;
+          return this.y <= this.targetY;
+        }
+        explode() {
+          const count = Math.floor(rand(40, 90));
+          for (let i=0; i<count; i++) {
+            particles.push(new Particle(this.x, this.y, this.hue));
+          }
+          // small pop trail
+          for (let i=0; i<8; i++) {
+            particles.push(new Particle(this.x + rand(-8,8), this.y + rand(-8,8), this.hue));
+          }
+        }
+        draw(ctx) {
+          ctx.save();
+          ctx.globalCompositeOperation = 'screen';
+          ctx.fillStyle = `hsl(${this.hue} 90% 70%)`;
+          ctx.shadowColor = glowColor;
+          ctx.shadowBlur = 24;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 2.4, 0, Math.PI*2);
+          ctx.fill();
+          // trail
+          ctx.strokeStyle = `hsla(${this.hue} 90% 70% / 0.6)`;
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(this.x, this.y+20);
+          ctx.lineTo(this.x, this.y);
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+
+      function launch() {
+        // cadence: occasional clusters, feels celebratory
+        const cluster = Math.random() < 0.35;
+        const num = cluster ? Math.floor(rand(3, 6)) : 1;
+        for (let i=0; i<num; i++) rockets.push(new Rocket());
+      }
+
+      function tick() {
+        raf = requestAnimationFrame(tick);
+        ctx.clearRect(0, 0, w, h);
+
+        // draw rockets
+        for (let i = rockets.length - 1; i >= 0; i--) {
+          const r = rockets[i];
+          r.draw(ctx);
+          if (r.step()) {
+            r.explode();
+            rockets.splice(i, 1);
+          }
+        }
+
+        // draw particles
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.draw(ctx);
+          if (!p.step()) particles.splice(i, 1);
+        }
+      }
+
+      // gentle pre-open ambience (few launches)
+      let preTimer = setInterval(() => {
+        if (!opened) {
+          if (Math.random() < 0.4) launch();
+        }
+      }, 900);
+
+      tick();
+
+      // Open flow
+      const tap = document.getElementById('tapOpen');
+      const stage = document.querySelector('.stage');
+      const hero = document.querySelector('.hero');
+      const giftWrap = document.querySelector('.gift-wrap');
+
+      function openGift() {
+        if (opened) return;
+        opened = true;
+        tap.setAttribute('aria-expanded', 'true');
+        stage.classList.add('opened');
+        hero.classList.add('show');
+        giftWrap.style.display = 'none'; // tidy
+        clearInterval(preTimer);
+        // continuous celebration
+        setInterval(() => launch(), 750);
+      }
+
+      tap.addEventListener('click', openGift);
+      tap.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openGift();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
